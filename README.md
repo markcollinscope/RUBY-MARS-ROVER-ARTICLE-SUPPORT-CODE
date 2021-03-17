@@ -10,6 +10,7 @@ they contain. The strata are 'interface', 'application', 'domain', 'infrastructu
 If you want to understand the modular structure used here - you need to read that!
 
 ## Specification
+### Overview
 A squad of robotic rovers are to be landed by NASA on a plateau on Mars.
 This plateau, which is curiously rectangular, must be navigated by the
 rovers so that their on-board cameras can get a complete view of the
@@ -21,8 +22,8 @@ surrounding terrain to send back to Earth.
 	- e.g 0,0, N - Bottom left facing North.
 	_ Can't go below 0,0
 
-o To control the Rover Nasa sends a simple string of letters. 
-o These are:
+* To control the Rover Nasa sends a simple string of letters. 
+* These are:
 	- L - Turn left (90 degrees, so direction N becomes W)
 	- R - ditto but right
 	- M - move forward place (e.g. if at 2,3,N will end up at 2,4 N)
@@ -30,48 +31,47 @@ o These are:
 
 (The square directly North from (x, y) is (x, y+1))
 
-
-INPUT
-
-o first line contains the upper right limit of the plateau 
+### INPUT
+* first line contains the upper right limit of the plateau 
 	- e.g. 5,7 means X goes 0..5 inclusive, Y: 0..7 inclusive
 	- lower-left coordinates are assumed to be 0,0.
 
-o the rest of the input applies in 2 line chunks to each successive Rover
+* the rest of the input applies in 2 line chunks to each successive Rover
 	- X,Y - the start position of Rover "N"
 	- then string: MMMLLLRRRRMMMLLL as described above - commands the Rover must follow.
 
 
-o Each rover will be finished sequentially, second rover won't start to move until the first finished.
-o For testing, the input should be put in a file and passed to the program as a command line arg.
+* Each rover will be finished sequentially, second rover won't start to move until the first finished.
+* For testing, the input should be put in a file and passed to the program as a command line arg.
 
 
-OUTPUT:
+### OUTPUT:
 The output for each rover should be its final co-ordinates and heading (e.g. 5,5,E)
 
-ERRORS:
-o an error should be raised if a rover goes outside the grid boundary (0,0) -> (n,n)
-o an error should be raised if two rovers collide whilst one is moving (intermediate positions as well)
-o there should be some basic reporting of syntax errors in the control file
+### ERRORS:
+* an error should be raised if a rover goes outside the grid boundary (0,0) -> (n,n)
+* an error should be raised if two rovers collide whilst one is moving (intermediate positions as well)
+* there should be some basic reporting of syntax errors in the control file
 
 
-EXAMPLE:
+### EXAMPLE:
 
 Test Input:
+```
 5 5
 1 2 N
 LMLMLMLMM
 3 3 E
 MMRMMRMRRM
+```
 
 Expected Output:
+```
 1 3 N
 5 1 E
+```
 
-==== End of Specification ======== Notes on solution follow.
-
-The solution zip file contains:
-
+## Discussion of Solution
 
 Data
 ====
