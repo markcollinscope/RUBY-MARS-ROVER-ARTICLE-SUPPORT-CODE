@@ -1,14 +1,21 @@
 # Mars Rover - An Example Ruby Program
+This is a small - but not trivial - Ruby program I wrote as part of a learning exercise with Ruby. It implements the specification given below.
 
+It also is intended as a worked example to support the architectural rules outlined in the following article:
+https://www.infoq.com/articles/arm-enterprise-applications/
 
-Specification:
-==============
+which proposes five 'layers' or 'strata' within which modules should be placed - depending on what they do and the nature of the code 
+they contain. The strata are 'interface', 'application', 'domain', 'infrastructure' and 'platform' - see the article for a full description.
+
+If you want to understand the modular structure used here - you need to read that!
+
+## Specification
 A squad of robotic rovers are to be landed by NASA on a plateau on Mars.
 This plateau, which is curiously rectangular, must be navigated by the
 rovers so that their on-board cameras can get a complete view of the
 surrounding terrain to send back to Earth.
 
-o Rover's position and location is represented by (X,Y,D)
+* Rover's position and location is represented by (X,Y,D)
 	- X,Y are normal co-ordinates
 	- D is one of N (North), E (East), S (South), W (West) - the direction the Rover is facing.
 	- e.g 0,0, N - Bottom left facing North.
