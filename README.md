@@ -1,5 +1,4 @@
-Mars Rover
-==========
+# Mars Rover - An Example Ruby Program
 
 
 Specification:
