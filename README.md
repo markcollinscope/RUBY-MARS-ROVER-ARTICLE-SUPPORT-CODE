@@ -113,8 +113,8 @@ Nevertheless it uses exactly the same 'application' strata code (grid in this ca
 
 ### A Note On Modules:
 I've only used "module" to group those sections which have multiple tightly inter-related classes:
-o grid - main class + exceptions
-o parser - main class + exceptions
+* grid - main class + exceptions
+* parser - main class + exceptions
 
 the rest I've just left as classes (though they could be turned into modules too)
 
