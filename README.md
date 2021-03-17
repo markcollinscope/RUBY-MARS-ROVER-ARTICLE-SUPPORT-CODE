@@ -97,7 +97,7 @@ The source is fit into four main sections:
 * grid.rb - Grid object - size - and also error detection (exceptions) for "out of bounds" and "collision" errors - architecturally this could be considered 'application' or 'domain' - this is a small example, so the distinction isn't as clear as it could be.
 * parser.rb - deals with parsing (syntax errors, etc.) the input file and calling 'grid' to do stuff - architecturally this is 'interface'.
 
-* + main deals with commandline args and tidying up exception messages to make them user-friendly (-ish!)
+main.rb deals with commandline args and tidying up exception messages to make them user-friendly (-ish!)
 
 Note 1: the grid module provides a facade to the "core business logic" of the application (so it is 'application strata). 
 In other words it provides a set of services which UIs or Parsers can use to do stuff. Very SOA! 
