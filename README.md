@@ -31,7 +31,7 @@ surrounding terrain to send back to Earth.
 
 (The square directly North from (x, y) is (x, y+1))
 
-### INPUT
+### Input (read from file)
 * first line contains the upper right limit of the plateau 
 	- e.g. 5,7 means X goes 0..5 inclusive, Y: 0..7 inclusive
 	- lower-left coordinates are assumed to be 0,0.
@@ -45,16 +45,16 @@ surrounding terrain to send back to Earth.
 * For testing, the input should be put in a file and passed to the program as a command line arg.
 
 
-### OUTPUT:
+### Output (to stdout)
 The output for each rover should be its final co-ordinates and heading (e.g. 5,5,E)
 
-### ERRORS:
+### Errors 
 * an error should be raised if a rover goes outside the grid boundary (0,0) -> (n,n)
 * an error should be raised if two rovers collide whilst one is moving (intermediate positions as well)
 * there should be some basic reporting of syntax errors in the control file
 
 
-### EXAMPLE:
+### Example Input/Output
 
 Test Input:
 ```
@@ -73,49 +73,52 @@ Expected Output:
 
 ## Discussion of Solution
 
-Data
-====
-o manualtestfile.txt - contains the example in the specification.
-o other .txt files contain data used in unit testing. Don't change them, The parser unit tests rely on them as they have to parse data in files during testing.
+### To Run The Program (assuming you have ruby set up)
+$ ruby main.rb manualtestfile.txt - will give expected results.
 
-Running the program
-===================
-> ruby main.rb manualtestfile.txt - will give expected results.
+### To Run the full unit test suite
+$ ruby ts_full.rb
 
-Running the full unit test suite
-=================================
-> ruby ts_full.rb
+### Input Data Files
+* manualtestfile.txt - contains the example in the specification - it is parsed by the app.
+* other ***.txt*** files contain data used in unit testing. Don't change them, The parser unit tests rely on them as they have to parse 
+data in files during testing.
 
-About the source code
-======================
+### Source Code Files
+
+***Dependencies:***
+main -> parser -> grid -> rover -> pair
+
+Dependencies are acyclic and all 'point downwards' (see article).
+
 The source is fit into four main sections:
-o pair.rb - utilities for adding co-ordinates, etc.
-o rover.rb - Rover object - maintains internal state and direction information.
-o grid.rb - Grid object - size - and also error detection (exceptions) for "out of bounds" and "collision" errors.
-o parser.rb - deals with parsing (syntax errors, etc.) the input file and calling 'grid' to do stuff.
+* pair.rb - utilities for adding co-ordinates, etc. a pair { x, y } - architecturally this is 'infrastructure' (see article).
+* rover.rb - Rover object - maintains internal state and direction information - architecturally this is 'domain' 
+* grid.rb - Grid object - size - and also error detection (exceptions) for "out of bounds" and "collision" errors - architecturally this could be considered 'application' or 'domain' - this is a small example, so the distinction isn't as clear as it could be.
+* parser.rb - deals with parsing (syntax errors, etc.) the input file and calling 'grid' to do stuff - architecturally this is 'interface'.
 
-o + main deals with commandline args and tidying up exception messages to make them user-friendly (-ish!)
+* + main deals with commandline args and tidying up exception messages to make them user-friendly (-ish!)
 
-Note: the grid module provides a facade to the "core business logic" of the application. In other words it provides a set of services which UIs or Parsers can use to do stuff. Very SOA! This is beneficial for core functional testing.
+Note 1: the grid module provides a facade to the "core business logic" of the application (so it is 'application strata). 
+In other words it provides a set of services which UIs or Parsers can use to do stuff. Very SOA! 
+This is beneficial for core functional testing.
 
-Unit test:
-o each of the four main sections has its own unit test file - which can be run in isolation - ts_XXXX.rb
-o tests are quite extensive
-o all pulled together into "ts_full.rb" for full system test.
+Note 2: the parser module is an example of 'interface' strata code that is not classic user interface (dialog boxes, buttons etc). 
+Nevertheless it uses exactly the same 'application' strata code (grid in this case) to get the core application to do something.
 
-Dependencies:
-o main -> parser -> grid -> rover -> pair
+### Unit Test Files
+* each of the four main sections has its own unit test file - which can be run in isolation - ts_XXXX.rb
+* tests are quite extensive
+* all pulled together into "ts_full.rb" for full system test.
 
-Modules:
+### A Note On Modules:
 I've only used "module" to group those sections which have multiple tightly inter-related classes:
 o grid - main class + exceptions
 o parser - main class + exceptions
 
-
 the rest I've just left as classes (though they could be turned into modules too)
 
-Improvements & Other Observations
-=================================
+### Improvements & Other Musings
 
 There are two major refactorings that would improve the design of this application - they are both related to the use of Directions.
 
@@ -129,6 +132,4 @@ Some other observations:
 
 3. Change the use of ":north" and use constants instead - e.g. Directions::NORTH. Mistypings like "Directions::NRTH" would be picked up by the intepreter, whereas mistyping ":nrth" would lead to a less obvious run-time error.
 
-4. And/or: subclass Hash to make SafeHash - and use this in the various lookup tables that are used (DIRECTIONS, etc). SafeHash would generate an "InvalidKeyException" if the key wasn't found in the Hash (rather than returning a Nil pointer) this would aid debugging if :nrth was mispealt!
-
-5. The code uses camelCase convention. This is a personal preference, however some prefer the (not) camel_case convention. Ultimately this is a matter for project standards - either could be used.
+Finally, the code uses camelCase convention. This is a personal preference, however some prefer the (not) camel_case convention. Ultimately this is a matter for project standards - either could be used.
